@@ -1,0 +1,11 @@
+*.bak
+*.qdf
+*.qws
+*.v
+qar_info.json
+db
+greybox_tmp
+devkits
+output_files
+pll*
+vhdl_ls.toml
