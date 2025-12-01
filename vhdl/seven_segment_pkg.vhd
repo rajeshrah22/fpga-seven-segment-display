@@ -179,3 +179,52 @@ package seven_segment_pkg is
     lamp_mode: in lamp_configuration := default_lamp_config
   ) return seven_segement_config;
 end package seven_segment_pkg;
+
+package body seven_segment_pkg is
+  function get_hex_digit (
+    digit: in hex_digit;
+    lamp_mode: in lamp_configuration := default_lamp_config
+  ) return seven_segement_config is
+
+  variable result : seven_segement_config;
+
+  begin
+    result := seven_segement_table(digit);
+
+    if lamp_mode = common_cathode then
+      result.a := not result.a;
+      result.b := not result.b;
+      result.c := not result.c;
+      result.d := not result.d;
+      result.e := not result.e;
+      result.f := not result.f;
+      result.g := not result.g;
+    end if;
+  end function get_hex_digit;
+
+  function lamps_off (
+    lamp_mode: in lamp_configuration := default_lamp_config
+  ) return seven_segement_config is
+
+  variable result : seven_segement_config;
+
+  begin
+    if lamp_mode = common_cathode then
+      result.a := '1';
+      result.b := '1';
+      result.c := '1';
+      result.d := '1';
+      result.e := '1';
+      result.f := '1';
+      result.g := '1';
+    else
+      result.a := '0';
+      result.b := '0';
+      result.c := '0';
+      result.d := '0';
+      result.e := '0';
+      result.f := '0';
+      result.g := '0';
+    end if;
+  end function lamps_off;
+end package body;
