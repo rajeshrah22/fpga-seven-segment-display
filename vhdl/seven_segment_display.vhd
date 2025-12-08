@@ -1,4 +1,3 @@
--- This is the toplevel
 library ieee;
 use ieee.std_logic_1164.all;
 
@@ -16,7 +15,7 @@ begin
 pll_inst: entity work.pll
 	port map (
 		inclk0 => src_clk,
-		c0 => src_clk
+		c0 => pll_clk
 	);
 	
 adc: entity work.max10_adc
@@ -29,10 +28,15 @@ adc: entity work.max10_adc
 		eoc => ,
 		clk_dft => ,
 	);
+
 memory:
+
 adc_fsm:
+
 display_fsm:
+
 prod2cons_sync:
+
 cons2prod_sync:
 
 end architecture toplevel;
