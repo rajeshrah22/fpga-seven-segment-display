@@ -6,11 +6,11 @@ use work.bin_to_gray;
 
 entity sync is
 	generic (
-		data_width: positive := 16
+		addr_width: positive := 5
 	);
 	port (
-		input: in std_logic_vector(data_width - 1 downto 0);
-		output: out std_logic_vector(data_width - 1 downto 0);
+		input: in std_logic_vector(addr_width - 1 downto 0);
+		output: out std_logic_vector(addr_width - 1 downto 0);
 		src_clk: in std_logic;
 		target_clk: in std_logic
 	);
@@ -18,10 +18,10 @@ end entity sync;
 
 
 architecture rtl of sync is
-	type stage_type is array(0 to 3) of std_logic_vector(data_width - 1 downto 0);
-	signal gray_in: std_logic_vector(data_width - 1 downto 0);
+	type stage_type is array(0 to 3) of std_logic_vector(addr_width - 1 downto 0);
+	signal gray_in: std_logic_vector(addr_width - 1 downto 0);
 	signal stage_reg: stage_type;
-	signal bin_out_s: std_logic_vector(data_width - 1 downto 0);
+	signal bin_out_s: std_logic_vector(addr_width - 1 downto 0);
 begin
 
 convert_bin2gray:	entity work.bin_to_gray

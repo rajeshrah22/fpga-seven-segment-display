@@ -1,9 +1,13 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+use work.seven_segment_pkg.all;
+use work.pll;
 
 entity seven_segment_display is
 	generic(
-		ADDR_WIDTH : positive := 16;
+		ADDR_WIDTH : positive := 5;
 		lamp_mode  : lamp_configuration := common_anode
 	);
 	port (
@@ -18,11 +22,21 @@ architecture toplevel of seven_segment_display is
 	constant DATA_WIDTH  : positive := 12;
 	signal pll_clk			: std_logic;
 	signal read_addr		: unsigned(ADDR_WIDTH - 1 downto 0);
+	signal write_addr		: unsigned(ADDR_WIDTH - 1 downto 0);
 	signal prod_sync_out : unsigned(ADDR_WIDTH - 1 downto 0);
-	
-	signal read_address_natural: natural range 0 to 2**ADDR_WIDTH - 1;
-	signal data_out: std_logic_vector(DATA_WIDTH - 1 downto 0);
+	signal cons_sync_out : unsigned(ADDR_WIDTH - 1 downto 0);
 
+	signal adc_data: natural range 0 to 2**12 - 1;
+	signal adc_data_vector: std_logic_vector(DATA_WIDTH - 1 downto 0);
+	signal adc_start: std_logic;
+	signal adc_done: std_logic;
+	signal adc_clk: std_logic;
+
+	signal read_address_natural: natural range 0 to 2**ADDR_WIDTH - 1;
+	signal write_address_natural: natural range 0 to 2**ADDR_WIDTH - 1;
+	signal w_en: std_logic;
+
+	signal data_out: std_logic_vector(DATA_WIDTH - 1 downto 0);
 begin
 
 	gen_outs: for i in digits_out'range generate
@@ -31,28 +45,24 @@ begin
 	end generate gen_outs;
 
 	read_address_natural <= to_integer(read_addr);
+	write_address_natural <= to_integer(write_addr);
+	adc_data_vector <= std_logic_vector(to_unsigned(adc_data, DATA_WIDTH));
 
 pll_inst: entity work.pll
-	generic map(
-		ADDR_WIDTH => 16
-	)
 	port map (
 		inclk0 	=> src_clk,
 		c0 		=> pll_clk
 	);
 	
 adc: entity work.max10_adc
-	generic map(
-		ADDR_WIDTH =>16
-	)
 	port map (
 		pll_clk 	=> pll_clk,
-		chsel 	=> '0',
-		soc 		=> ,
+		chsel 	=> 0,
+		soc 		=> adc_start,
 		tsen 		=> '1',
-		dout 		=> ,
-		eoc 		=> ,
-		clk_dft 	=> adc_clk,
+		dout 		=> adc_data,
+		eoc 		=> adc_done,
+		clk_dft 	=> adc_clk
 	);
 
 memory:
@@ -63,17 +73,26 @@ memory:
 	port map (
 		clk_a		=> adc_clk,
 		clk_b		=> display_clk,
-		addr_a	=> ,
+		addr_a	=> write_address_natural,
 		addr_b	=> read_address_natural,
-		data_a	=> ,
+		data_a	=> adc_data_vector,
 		data_b	=> ( others => '0' ),
-		we_a		=> ,
+		we_a		=> w_en,
 		we_b		=> '0',
 		q_a		=> open,
 		q_b		=> data_out
 	);
 
-adc_fsm:
+  adc_fsm: entity work.adc_fsm
+		port map (
+			adc_clk => adc_clk,
+			reset => reset,
+			raddr_in => cons_sync_out,
+			waddr_out => write_addr,
+			start_out => adc_start,
+			done => adc_done,
+			w_en_out => w_en
+		);
 
 display_fsm: entity work.Display_FSM
 	generic map(
@@ -94,9 +113,9 @@ prod2cons_sync: entity work.sync
 	
 	port map(
 		prod_out 			=>	prod_sync_out,
-		prod_in 				=>	,
-      prod_src_clk		=>	adc_clk,
-      prod_target_clk 	=>	display_clk
+		prod_in 				=>	write_addr,
+		prod_src_clk		=>	adc_clk,
+		prod_target_clk 	=>	display_clk
 	);
 
 cons2prod_sync: entity work.sync 
@@ -104,12 +123,13 @@ cons2prod_sync: entity work.sync
 		ADDR_WIDTH => 16
 	)
 	port map(
-		cons_out 			=>	,
+		cons_out 			=>	cons_sync_out,
 		cons_in 				=> read_addr,
-      cons_src_clk		=>	display_clk,
-      cons_target_clk 	=>	adc_clk
+		cons_src_clk		=>	display_clk,
+		cons_target_clk 	=>	adc_clk
 	);
 
-display_seven_convert: entity work.
+	-- TODO: std_logic_vector --> BCD raw value to temp conversion
+	-- TODO fix Display_FSM errors
 	
 end architecture toplevel;

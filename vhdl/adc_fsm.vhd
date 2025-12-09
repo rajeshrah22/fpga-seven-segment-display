@@ -16,10 +16,9 @@ entity adc_fsm is
 		raddr_in: in unsigned(addr_width - 1 downto 0);
 		waddr_out: out unsigned(addr_width - 1 downto 0);
 
-		-- adc controls and data
+		-- adc controls
 		start_out: out std_logic;
 		done: in std_logic;
-		data: in natural;
 
 		-- memory
 		w_en_out: out std_logic
