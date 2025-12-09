@@ -7,11 +7,11 @@ use wysiwyg.fiftyfivenm_components.all;
 ----
 -- port map:
 --
--- pll_clk:	clock input (10 MHz)
+-- pll_clk:	clock input (1 MHz)
 -- chsel:	channel select
 -- soc:		start of conversion
 -- tsen:	0 - normal mode
---			1 - temperature sensing mode
+--		1 - temperature sensing mode.
 -- dout:	data output
 -- eoc:		end of conversion
 -- clk_dft:	clock output from clock divider

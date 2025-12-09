@@ -63,3 +63,5 @@ set_global_assignment -name VHDL_FILE vhdl/bin_to_gray.vhd
 set_global_assignment -name VHDL_FILE vhdl/memory.vhd
 set_global_assignment -name VHDL_FILE vhdl/sync.vhd
 set_global_assignment -name TCL_SCRIPT_FILE tcl/assign_clocks.tcl
+set_global_assignment -name VHDL_FILE vhdl/seven_segment_display.vhd
+set_global_assignment -name VHDL_FILE vhdl/adc_fsm.vhd
