@@ -4,7 +4,6 @@ use ieee.numeric_std.all;
 
 entity adc_fsm is
 	generic (
-		data_width: positive := 12;
 		addr_width: positive := 5
 	);
 
