@@ -47,7 +47,7 @@ begin
     end if;
 	end process save_state;
 
-	transition_fn: process(state, done) is
+	transition_fn: process(state, done, waddr, raddr_in) is
 	begin
 		next_state <= state;
 		case state is

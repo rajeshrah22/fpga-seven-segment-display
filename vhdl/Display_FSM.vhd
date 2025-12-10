@@ -8,10 +8,10 @@ entity Display_FSM is
 		addr_width: positive := 5
 	);
 	port (
-		data_in : in unsigned;
+		data_in : in unsigned(addr_width - 1 downto 0);
 		clk_50  : in std_logic;
 		reset   : in std_logic;
-		data_out: out unsigned
+		data_out: out unsigned(addr_width - 1 downto 0)
 	);
 end Display_FSM;
 
@@ -35,7 +35,7 @@ begin
 			end if;
 		end process save_state;
 		
-	transition: process (state, data_in) is 
+	transition: process (state, data_in, read_addr) is 
 		begin
 			next_state <= state;
 			case state is

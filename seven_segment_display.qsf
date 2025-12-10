@@ -68,4 +68,52 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name VHDL_FILE vhdl/Display_FSM.vhd
+set_location_assignment PIN_N5 -to src_clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to src_clk
+set_location_assignment PIN_P11 -to display_clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to display_clk
+set_location_assignment PIN_C14 -to digits_out[0].a
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].a
+set_location_assignment PIN_E15 -to digits_out[0].b
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].b
+set_location_assignment PIN_C15 -to digits_out[0].c
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].c
+set_location_assignment PIN_C16 -to digits_out[0].d
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].d
+set_location_assignment PIN_E16 -to digits_out[0].e
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].e
+set_location_assignment PIN_D17 -to digits_out[0].f
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].f
+set_location_assignment PIN_C17 -to digits_out[0].g
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[0].g
+set_location_assignment PIN_C18 -to digits_out[1].a
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].a
+set_location_assignment PIN_D18 -to digits_out[1].b
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].b
+set_location_assignment PIN_E18 -to digits_out[1].c
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].c
+set_location_assignment PIN_B16 -to digits_out[1].d
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].d
+set_location_assignment PIN_A17 -to digits_out[1].e
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].e
+set_location_assignment PIN_A18 -to digits_out[1].f
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].f
+set_location_assignment PIN_B17 -to digits_out[1].g
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[1].g
+set_location_assignment PIN_B20 -to digits_out[2].a
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].a
+set_location_assignment PIN_A20 -to digits_out[2].b
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].b
+set_location_assignment PIN_B19 -to digits_out[2].c
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].c
+set_location_assignment PIN_A21 -to digits_out[2].d
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].d
+set_location_assignment PIN_B21 -to digits_out[2].e
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].e
+set_location_assignment PIN_C22 -to digits_out[2].f
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].f
+set_location_assignment PIN_B22 -to digits_out[2].g
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to digits_out[2].g
+set_location_assignment PIN_B8 -to reset
+set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to reset
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
