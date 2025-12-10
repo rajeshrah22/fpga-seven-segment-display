@@ -132,6 +132,5 @@ cons2prod_sync: entity work.sync
 	);
 
 	-- TODO: std_logic_vector --> BCD raw value to temp conversion
-	-- TODO fix Display_FSM errors
 	
 end architecture toplevel;
