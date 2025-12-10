@@ -95,6 +95,9 @@ memory:
 	);
 
   adc_fsm: entity work.adc_fsm
+		generic map(
+			addr_width => ADDR_WIDTH
+		)
 		port map (
 			adc_clk => adc_clk,
 			reset => reset,
@@ -107,8 +110,8 @@ memory:
 
 display_fsm: entity work.Display_FSM
 	generic map(
-		Data_Width => 12,
-		addr_width => 5
+		Data_Width => DATA_WIDTH,
+		addr_width => ADDR_WIDTH
 	)
 	
 	port map(
