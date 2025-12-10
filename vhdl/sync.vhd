@@ -25,6 +25,9 @@ architecture rtl of sync is
 begin
 
 convert_bin2gray:	entity work.bin_to_gray
+	generic map (
+		input_width => addr_width
+	)
 	port map (
 		bin_in => input,
 		gray_out => stage_reg(0)
@@ -47,6 +50,9 @@ end process;
 
 
 convert_gray2bin:	entity gray_to_bin
+	generic map (
+		input_width => addr_width
+	)
 	port map (
 		gray_in => stage_reg(3),
 		bin_out => output

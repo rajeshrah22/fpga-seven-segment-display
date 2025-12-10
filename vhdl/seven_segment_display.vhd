@@ -23,8 +23,8 @@ architecture toplevel of seven_segment_display is
 	signal pll_clk			: std_logic;
 	signal read_addr		: unsigned(ADDR_WIDTH - 1 downto 0);
 	signal write_addr		: unsigned(ADDR_WIDTH - 1 downto 0);
-	signal prod_sync_out : unsigned(ADDR_WIDTH - 1 downto 0);
-	signal cons_sync_out : unsigned(ADDR_WIDTH - 1 downto 0);
+	signal prod_sync_out : std_logic_vector(ADDR_WIDTH - 1 downto 0);
+	signal cons_sync_out : std_logic_vector(ADDR_WIDTH - 1 downto 0);
 
 	signal adc_data: natural range 0 to 2**12 - 1;
 	signal adc_data_vector: std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -68,7 +68,8 @@ adc: entity work.max10_adc
 memory:
 	entity work.true_dual_port_ram_dual_clock
 	generic map (
-		ADDR_WIDTH => 16
+		DATA_WIDTH => DATA_WIDTH,
+		ADDR_WIDTH => ADDR_WIDTH
 	)
 	port map (
 		clk_a		=> adc_clk,
@@ -87,7 +88,7 @@ memory:
 		port map (
 			adc_clk => adc_clk,
 			reset => reset,
-			raddr_in => cons_sync_out,
+			raddr_in => unsigned(cons_sync_out),
 			waddr_out => write_addr,
 			start_out => adc_start,
 			done => adc_done,
@@ -96,11 +97,12 @@ memory:
 
 display_fsm: entity work.Display_FSM
 	generic map(
-		Data_Width => 16
+		Data_Width => 12,
+		addr_width => 5
 	)
 	
 	port map(
-		data_in 	=>	prod_sync_out,
+		data_in 	=>	unsigned(prod_sync_out),
 		clk_50  	=>	display_clk,
 		reset   	=>	reset,
 		data_out	=>	read_addr
@@ -108,25 +110,25 @@ display_fsm: entity work.Display_FSM
 
 prod2cons_sync: entity work.sync
 	generic map(
-		ADDR_WIDTH => 16
+		ADDR_WIDTH => ADDR_WIDTH
 	)
 	
 	port map(
-		prod_out 			=>	prod_sync_out,
-		prod_in 				=>	write_addr,
-		prod_src_clk		=>	adc_clk,
-		prod_target_clk 	=>	display_clk
+		output 			=>	prod_sync_out,
+		input 				=>	std_logic_vector(write_addr),
+		src_clk		=>	adc_clk,
+		target_clk 	=>	display_clk
 	);
 
 cons2prod_sync: entity work.sync 
 	generic map(
-		ADDR_WIDTH => 16
+		ADDR_WIDTH => ADDR_WIDTH
 	)
 	port map(
-		cons_out 			=>	cons_sync_out,
-		cons_in 				=> read_addr,
-		cons_src_clk		=>	display_clk,
-		cons_target_clk 	=>	adc_clk
+		output 			=>	cons_sync_out,
+		input 				=> std_logic_vector(read_addr),
+		src_clk		=>	display_clk,
+		target_clk 	=>	adc_clk
 	);
 
 	-- TODO: std_logic_vector --> BCD raw value to temp conversion

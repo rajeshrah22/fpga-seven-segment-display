@@ -58,7 +58,6 @@ set_global_assignment -name QIP_FILE vhdl/pll.qip
 set_global_assignment -name VHDL_FILE vhdl/seven_segment_pkg.vhd
 set_global_assignment -name VHDL_FILE vhdl/max10_adc.vhd
 set_global_assignment -name VHDL_FILE vhdl/gray_to_bin.vhd
-set_global_assignment -name VHDL_FILE vhdl/cdc.vhd
 set_global_assignment -name VHDL_FILE vhdl/bin_to_gray.vhd
 set_global_assignment -name VHDL_FILE vhdl/memory.vhd
 set_global_assignment -name VHDL_FILE vhdl/sync.vhd

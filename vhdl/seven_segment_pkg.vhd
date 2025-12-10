@@ -200,6 +200,8 @@ package body seven_segment_pkg is
       result.f := not result.f;
       result.g := not result.g;
     end if;
+
+		return result;
   end function get_hex_digit;
 
   function lamps_off (
