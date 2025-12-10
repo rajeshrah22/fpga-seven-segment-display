@@ -7,13 +7,14 @@ set sseg_lamps {
   { J20, K20, L18, N18, M20, N19, N20, L19 }
 }
 
-proc set_pins { digits { name "hex_digit" } } {
+proc set_pins { digits { name "digits_out" } } {
   global sseg_lamps
-  for { set i 0 } { ${i} < 6 } { incr i } {
+  for { set i 0 } { ${i} < ${digits} } { incr i } {
+    set j 0
     foreach lamp { a b c d e f g } {
       set location [ lindex [ lindex ${sseg_lamps} ${i} ] ${j} ]
       set_location_assignment PIN_${location} -to name\[${i}\].${lamp}
-      set_instance_assignemt -name IO_STANDARD "3.3-V LVTTL" -to name\[${i}\].${lamp}
+      set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to name\[${i}\].${lamp}
       incr j
     }
   }
